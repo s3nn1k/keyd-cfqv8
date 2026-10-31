@@ -157,6 +157,10 @@ sudo modprobe uinput
 sudo udevadm control --reload-rules
 UINPUT_SYSPATH="$(udevadm info --query=path --name=/dev/uinput)" ||
     die "udev cannot resolve /dev/uinput"
+case "$UINPUT_SYSPATH" in
+    /sys/*) ;;
+    *) UINPUT_SYSPATH="/sys$UINPUT_SYSPATH" ;;
+esac
 sudo udevadm trigger --action=change "$UINPUT_SYSPATH"
 for event_syspath in "${KEYD_EVENT_SYSPATHS[@]}"; do
     sudo udevadm trigger --action=change "$event_syspath"
