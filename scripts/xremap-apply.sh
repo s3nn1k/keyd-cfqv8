@@ -5,6 +5,7 @@ REPOSITORY="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # Кэш загрузок и локальный bin - как в dotfiles-fedora
 CACHE="$HOME/.cache/dotfiles-fedora"
 LOCAL_BIN="$HOME/.local/bin"
+CONFIGURATION_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 # Скачивание файла с проверкой sha256; повторный запуск использует кэш
 download() {
@@ -154,7 +155,7 @@ install_system_copy "$REPOSITORY/xremap/uinput.conf" /etc/modules-load.d/uinput.
 
 sudo modprobe uinput
 sudo udevadm control --reload-rules
-UINPUT_SYSPATH="$(udevadm info --query=syspath --name=/dev/uinput)" ||
+UINPUT_SYSPATH="$(udevadm info --query=path --name=/dev/uinput)" ||
     die "udev cannot resolve /dev/uinput"
 sudo udevadm trigger --action=change "$UINPUT_SYSPATH"
 for event_syspath in "${KEYD_EVENT_SYSPATHS[@]}"; do
