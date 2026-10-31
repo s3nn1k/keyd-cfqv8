@@ -2,13 +2,15 @@
 
 Раскладка nova-42 для встроенной JIS-клавиатуры Panasonic Let's note CF-QV8 (keyd).
 `apply.sh` определяет id клавиатуры, подставляет его в `nova.conf` вместо
-`__KEYBOARD_IDS__` и устанавливает конфиг в `/etc/keyd/cfqv8.conf`.
+`__KEYBOARD_IDS__`, устанавливает конфиг в `/etc/keyd/cfqv8.conf`, затем включает и
+перезапускает keyd.
 
 ## Карта раскладки
 
 - Левая колонка: Tab -> `` ` ``, CapsLock -> Tab, Shift -> `]`
-- AltL/Muhenkan -> слой Raise, Henkan -> Enter, Katakana -> слой Lower, Menu -> Backspace
-- Home-row моды: a/s/d/f и j/k/l/; -> Control/Alt/Meta/Shift, удержание 200 мс
+- Muhenkan -> слой Raise, Henkan -> Enter, Katakana -> слой Lower, AltL -> Escape,
+  Menu/Compose -> Backspace
+- Home-row моды (удержание 200 мс): a/; -> Control, s/l -> Alt, d/k -> Meta, f/j -> Shift
 - Аккорд Muhenkan+Henkan -> слой `std`, таймаут аккорда 100 мс (`chord_timeout`)
 - Погашены (noop): escape, backspace, enter, f1-f12, 1-0, minus, equal, стрелки, insert,
   delete, home, end, pageup, pagedown, sysrq, print, scrolllock, pause, numlock, rightalt,
@@ -33,5 +35,5 @@ sudo ./apply.sh
 ## xremap
 
 Эксперимент Super-C/V через xremap: установка и запуск - `./scripts/xremap-apply.sh` из
-активной Sway-сессии, откат - `systemctl --user stop xremap.service`. Подробности -
-`xremap/README.md`.
+активной Sway-сессии (нужен пакет acl), откат - `systemctl --user stop xremap.service`.
+Подробности - `xremap/README.md`.
