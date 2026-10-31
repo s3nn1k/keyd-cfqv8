@@ -34,6 +34,7 @@ sudo ./apply.sh
 
 ## xremap
 
-Эксперимент Super-C/V через xremap: установка и запуск - `./scripts/xremap-apply.sh` из
-активной Sway-сессии (нужен пакет acl), откат - `systemctl --user stop xremap.service`.
-Подробности - `xremap/README.md`.
+Эксперимент Super-C/V через xremap: ставится и запускается bootstrap'ом dotfiles-fedora
+автоматически; отдельный запуск `./scripts/xremap-apply.sh` из активной Sway-сессии -
+для переустановки или отладки. Откат: `systemctl --user stop xremap.service` (нужен
+пакет acl). Подробности - `xremap/README.md`.

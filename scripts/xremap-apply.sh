@@ -2,12 +2,10 @@
 set -euo pipefail
 
 REPOSITORY="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-# Кэш загрузок и локальный bin - как в dotfiles-fedora
 CACHE="$HOME/.cache/dotfiles-fedora"
 LOCAL_BIN="$HOME/.local/bin"
 CONFIGURATION_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
-# Скачивание файла с проверкой sha256; повторный запуск использует кэш
 download() {
     local url="$1" checksum="$2" destination="$3"
     if [[ -f "$destination" ]] && printf '%s  %s\n' "$checksum" "$destination" | sha256sum --check --status; then
@@ -179,4 +177,4 @@ done
 systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_CONFIG_HOME
 systemctl --user daemon-reload
 systemctl --user start xremap.service
-printf '%s\n' "xremap trial started; verify global, foot, footclient, Shift+Super+C, US/RU, and keyd restart."
+echo "xremap: служба запущена"
