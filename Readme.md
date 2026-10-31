@@ -1,8 +1,8 @@
 # keyd-cfqv8
 
 Раскладка nova-42 для встроенной JIS-клавиатуры Panasonic Let's note CF-QV8 (keyd).
-`apply.sh` определяет id клавиатуры, подставляет его в `nova.conf` вместо `__KEYBOARD_IDS__`
-и устанавливает конфиг в `/etc/keyd/cfqv8.conf`.
+`apply.sh` определяет id клавиатуры, подставляет его в `nova.conf` вместо
+`__KEYBOARD_IDS__` и устанавливает конфиг в `/etc/keyd/cfqv8.conf`.
 
 ## Карта раскладки
 
@@ -27,5 +27,11 @@
 sudo ./apply.sh
 ```
 
-При неудаче автодетекта или нескольких совпадениях: `sudo ./apply.sh --id 0001:0001`
-(id видно в `sudo keyd monitor`).
+При неудаче автодетекта или нескольких совпадениях: `sudo ./apply.sh --id 0001:0001` (id
+видно в `sudo keyd monitor`).
+
+## xremap
+
+Эксперимент Super-C/V через xremap: установка и запуск - `./scripts/xremap-apply.sh` из
+активной Sway-сессии, откат - `systemctl --user stop xremap.service`. Подробности -
+`xremap/README.md`.
