@@ -114,6 +114,7 @@ fi
 
 rm -f "$LEGACY_CONFIG_PATH"
 if [[ -d /run/systemd/system ]] && command -v systemctl >/dev/null; then
+    systemctl enable keyd
     systemctl restart keyd
 else
     echo "apply: systemd не обнаружен - перезапусти keyd вручную" >&2
