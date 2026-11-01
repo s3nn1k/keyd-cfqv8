@@ -124,6 +124,10 @@ CURRENT_UID="$(id -u)"
 RESUME_HOOK_SOURCE="$REPOSITORY/xremap/resume-hook.sh"
 RESUME_HOOK_TARGET="/usr/lib/systemd/system-sleep/xremap-resume.sh"
 
+for keyd_wait_attempt in {1..20}; do
+    find_keyd_events && break
+    sleep 0.5
+done
 find_keyd_events || die "keyd virtual keyboard was not found"
 preflight_link "$REPOSITORY/xremap/config.yml" "$CONFIGURATION_HOME/xremap/config.yml"
 preflight_link "$REPOSITORY/xremap/xremap.service" "$CONFIGURATION_HOME/systemd/user/xremap.service"
