@@ -14,7 +14,7 @@ Super+C/V, Shift+Super+C reload, US/RU, and keyd restart reattach. Missing `getf
 Manual start from Sway:
 
 ```sh
-systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP XDG_CONFIG_HOME
+systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 systemctl --user start xremap.service
 ```
 
