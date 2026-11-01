@@ -18,4 +18,6 @@ systemctl --user import-environment WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP
 systemctl --user start xremap.service
 ```
 
-Rollback: `systemctl --user stop xremap.service`; udev/module remains; no full rollback.
+Rollback: `sudo systemctl --user stop xremap.service` (until the next resume); full
+rollback is `sudo rm /usr/lib/systemd/system-sleep/xremap-resume.sh` (permanent);
+udev/module remains.

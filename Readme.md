@@ -36,5 +36,6 @@ sudo ./apply.sh
 
 Эксперимент Super-C/V через xremap: ставится и запускается bootstrap'ом dotfiles-fedora
 автоматически; отдельный запуск `./scripts/xremap-apply.sh` из активной Sway-сессии -
-для переустановки или отладки. Откат: `systemctl --user stop xremap.service` (нужен
-пакет acl). Подробности - `xremap/README.md`.
+для переустановки или отладки. Полный откат: `sudo systemctl --user stop xremap.service`
+(до следующего resume) и `sudo rm /usr/lib/systemd/system-sleep/xremap-resume.sh`
+(навсегда). Подробности - `xremap/README.md`.

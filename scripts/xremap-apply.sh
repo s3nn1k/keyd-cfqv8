@@ -5,6 +5,7 @@ REPOSITORY="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CACHE="$HOME/.cache/dotfiles-fedora"
 LOCAL_BIN="$HOME/.local/bin"
 CONFIGURATION_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
+SCRIPT_USER="$(id -un)"
 
 download() {
     local url="$1" checksum="$2" destination="$3"
@@ -121,6 +122,8 @@ DOWNLOAD_SHA256="9e8e3eb56423b06607c507788eef2100f9dfd241da58988d69e8a6fdbae4482
 KEYD_EVENT_DEVICES=()
 KEYD_EVENT_SYSPATHS=()
 CURRENT_UID="$(id -u)"
+RESUME_HOOK_SOURCE="$REPOSITORY/xremap/resume-hook.sh"
+RESUME_HOOK_TARGET="/usr/lib/systemd/system-sleep/xremap-resume.sh"
 
 find_keyd_events || die "keyd virtual keyboard was not found"
 preflight_link "$REPOSITORY/xremap/config.yml" "$CONFIGURATION_HOME/xremap/config.yml"
@@ -150,6 +153,15 @@ link_source "$REPOSITORY/xremap/config.yml" "$CONFIGURATION_HOME/xremap/config.y
 link_source "$REPOSITORY/xremap/xremap.service" "$CONFIGURATION_HOME/systemd/user/xremap.service"
 install_system_copy "$REPOSITORY/xremap/70-xremap.rules" /etc/udev/rules.d/70-xremap.rules
 install_system_copy "$REPOSITORY/xremap/uinput.conf" /etc/modules-load.d/uinput.conf
+[[ -f "$RESUME_HOOK_SOURCE" ]] || die "missing repository file: $RESUME_HOOK_SOURCE"
+RESUME_HOOK_RENDERED="$(mktemp "${XDG_RUNTIME_DIR:-/tmp}/xremap-resume-hook.XXXXXX")"
+trap 'rm -f "$RESUME_HOOK_RENDERED"' EXIT
+sed "s|__USER__|$SCRIPT_USER|" "$RESUME_HOOK_SOURCE" > "$RESUME_HOOK_RENDERED"
+if grep -q "__USER__" "$RESUME_HOOK_RENDERED"; then
+    die "substitution failed: placeholder left in $RESUME_HOOK_SOURCE"
+fi
+bash -n "$RESUME_HOOK_RENDERED" || die "rendered resume hook is not valid bash"
+sudo install -m 755 "$RESUME_HOOK_RENDERED" "$RESUME_HOOK_TARGET"
 
 sudo modprobe uinput
 sudo udevadm control --reload-rules
