@@ -1,5 +1,5 @@
 [Unit]
-Description=xremap Super clipboard trial
+Description=xremap Super clipboard
 After=graphical-session.target
 PartOf=graphical-session.target
 
@@ -10,3 +10,6 @@ Restart=on-failure
 RestartSec=3
 StandardOutput=journal
 StandardError=journal
+
+[Install]
+WantedBy=graphical-session.target

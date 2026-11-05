@@ -187,11 +187,12 @@ done
 "$XREMAP_BINARY" --desktop wlroots --validate-config "$CONFIGURATION_HOME/xremap/config.yml" ||
     die "xremap rejected the configuration"
 "$XREMAP_BINARY" --desktop wlroots --list-windows >/dev/null ||
-    die "wlroots app detection is unavailable; refusing to start the foot-specific trial"
+    die "wlroots app detection is unavailable; refusing to start the xremap service"
 
 IMPORT_ENVIRONMENT=(WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP)
 [[ -n "${XDG_CONFIG_HOME:-}" ]] && IMPORT_ENVIRONMENT+=(XDG_CONFIG_HOME)
 systemctl --user import-environment "${IMPORT_ENVIRONMENT[@]}"
 systemctl --user daemon-reload
+systemctl --user enable xremap.service
 systemctl --user start xremap.service
 echo "xremap: служба запущена"
